@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="vue.js" ></script>
+<title>BrowseDirectory</title>
+<style>
+ul li:hover{
+cursor:pointer;
+}
+
+#navigator, #content{
+background-color:white;
+}
+
+
+.folderPicture{
+width:30px;
+height:20px;
+}
+#statusFrame{
+position:relative;
+width:250px;
+height:25px;
+top:10px;
+}
+#upload{
+display:inline-block;
+}
+.staggered-transition {
+    transition: all 5s ease;
+    overflow: hidden;
+    margin: 0;
+    height: 20px;
+}
+.staggered-enter, .staggered-leave {
+    opacity: 0;
+    height: 0;
+}
+</style>
+
+<script src="haha.js" > </script>
+
+</head>
+<body>
+<div id="vueContent">
+<div id="navigator" >
+<div class="row"> 
+<div class="col-md-10"><input class="form-control" id="directory"  type="text" value="/" readonly /></div>
+<div class="col-md-2"> <input class="form-control" v-model="query" placeholder="搜索" /></div>
+ </div>
+<button id="back" class="btn btn-info btn-sm" onclick="back()" disabled="true" >后退</button>
+<button id="forward" class="btn btn-info btn-sm" onclick="forward()" disabled="true" >前进</button>
+<button class="btn btn-info btn-sm"  onclick="refreshLater()" >刷新</button>
+<iframe name="noShowFrame" id="statusFrame" > </iframe>
+<div id="upload"> 
+<form class="form-inline" id="uploadFrom" target="noShowFrame" enctype="multipart/form-data" method="post" action="/hehe">
+<div class="form-group">
+    <label class="sr-only" for="inputfile">文件输入</label>
+    <input  type="file" name="elementForFile" id="inputfile" /> 
+</div>
+<button type="submit" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="上传选中文件至当前路径">上传</button>
+</form>
+</div>
+</div>
+<!--<div id="content">
+
+</div> -->
+
+    <ul>
+        <li  v-for="item in nameFilter(dirList,query)" class="list-group-item list-group-item-success" transition="staggered" stagger="200" v-on:click="goDeep(item)"  ><img class="folderPicture" src="ssfolder.jpg" />{{item}}</li>
+        <li v-for="item in nameFilter(fileList,query)"  class="list-group-item list-group-item-info" transition="staggered" stagger="200" ><a :href="item|fullPath" target="_blank" >{{item}}</a></li>  <!-- beautiful-->
+    </ul>
+</div>
+
+
+
+
+</body>
+
+</html>
